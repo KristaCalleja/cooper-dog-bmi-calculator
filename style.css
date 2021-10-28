@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,500;0,900;1,700&display=swap');
+:root{
+    --pale-blue: hsl(225, 100%, 94%);
+    --bright-blue: hsl(245, 75%, 52%);
+    --very-pale-blue: hsl(225, 100%, 98%);
+    --desaturated-blue: hsl(224, 23%, 55%);
+    --dark-blue: hsl(223, 47%, 23%);
+    --vermilion: hsl(9, 61%, 49%);
+    --forest-green-crayola: (137, 27%, 50%);
+    font-size: 18px;
+}
+*, 
+*::before,
+*::after{
+    margin: 0;
+    padding: 0;
+    font-family: 'Red Hat Display', sans-serif;
+    box-sizing: inherit;
+}
+/* Typography-related */
+h1, h2, h3{
+    font-size: 1.2rem;
+    text-align: center;
+    padding: .9em 0;
+    color: var(--dark-blue);
+}
+a{
+    color: var(--bright-blue);
+    font-weight: 500;
+    font-size: 1rem;
+}
+p{
+    color: var(--desaturated-blue);
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.5em;
+}
+/* Pseudo-classes */
+a:hover{
+    text-decoration: none;
+}
+:focus{
+    outline: 2px var(--desaturated-blue) solid;
+    outline-offset: 1px;
+}
+body{
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 100vh;
+}
+main{
+    background: white;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+            align-items: center;
+}
+.text::before{
+    content: '';
+    background-image: url(images/mobile-dogs.png);
+    background-size: 500px 485px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 100%;
+    height: 40vh;
+}
+.hero-img{
+    display: none;
+}
+/* Form related */
+form{
+    text-align: left;
+    padding: 1em;
+    margin: 0 auto;
+}
+form .field{
+    background: var(--very-pale-blue);
+    margin: 2em auto;
+    padding: 1em;
+    border-radius: 11px;
+    position: relative;
+}
+input{
+    width: 100%;
+    margin-top: 1em;
+    padding: 1em 1.5em;
+}
+.failure-icon, .success-icon{
+    font-size: 2rem;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 1.5em 1em 0 0;
+    justify-content: flex-end;
+    opacity: 0;
+}
+.failure-icon, .error{
+    color: red;
+}
+.error{
+    padding-top: .5em;
+    opacity: 1;
+}
+.success-icon{
+    color: green;
+}
+button{
+    width: 100%;
+    outline: none;
+    padding: .8em 0;
+    border-radius: 11px;
+    border: none;
+    color: white;
+    font-weight: 700;
+    letter-spacing: .06em;
+}
+.primary-btn{
+    -webkit-box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.48); 
+    box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.48);
+    background: var(--bright-blue);
+    cursor: pointer;
+}
+.primary-btn:hover{
+    opacity: .6;
+}
+footer{
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1rem;
+    max-width: 400px;
+}
+.form.close{
+    display: none;
+}
+.results{
+    padding: 1em;
+    box-shadow: 5px 5px 10px 5px rgba(114,128,167,0.61);
+    margin: auto;
+    width: 90%;
+    border: 4px var(--desaturated-blue) solid;
+    border-radius: 11px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Hide until form submission */
+    display: none;
+}
+.results.open{
+    display: block;
+}
+.results img{
+    margin: auto;
+}
+.results p{
+    margin-bottom: 2em;
+}
+.secondary-btn{
+    border: 2px var(--dark-blue) solid;
+    width: 25%;
+    -webkit-box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.48); 
+    box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.48);
+    margin-top: 2em;
+    color: var(--dark-blue);
+    padding: .5em ;
+    border-radius: 11px;
+    font-weight: 400;
+    letter-spacing: .06em;
+    font-size: 1rem;
+}
+.results a{
+    text-decoration: none;
+}
+.results ion-icon{
+    font-size: 22px;
+    margin: 0px 22px -4px 16px;
+}
+.bmi-function{
+    color: var(--vermilion);
+    font-size: 2rem;
+}
+.health span{
+    color: var(--forest-green-crayola);
+}
+.image{
+    box-shadow: -1px 2px 8px -6px #000001;
+}
+@media (min-width: 800px){
+    main{
+        margin: 1em auto;
+        display: grid;
+        grid-template-columns: 40% 60%;
+        max-width: 1334px;
+        min-height: 720px;
+    }
+    .text::before{
+        content: none;
+    }
+    .hero-img{
+        display: block;
+        height: 100%;
+        background-image: url(images/alvan-nee-1VgfQdCuX-4-unsplash.jpg);
+        background-size: cover;
+        background-position: center center;
+    }
+    form .field{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 1em auto;
+    }
+    form div div:last-of-type{
+        max-height: 70px;
+        width: 50%;
+        display: block;
+        justify-content: flex-end;
+    }
+}
