@@ -55,14 +55,14 @@ function fetchResponse(){
             // Split the healthy weight values into two values
             function findUnderweight(){
                 var underWeight = healthyWeight.split('');
-                console.log(underWeight[0]);
                 return underWeight[0];
             }
             function findOverweight(){
                 var overWeight = healthyWeight.split('');
-                console.log(overWeight[2]);
-                return overWeight[2];
+                return overWeight[4];
             }
+            console.log(findUnderweight());
+            console.log(findOverweight());
             // Place image of the dog
             let imageDiv = new Image(300, 200);
             imageDiv.src = data[returnData].image.url;
@@ -72,15 +72,15 @@ function fetchResponse(){
             function bmiCalculation(w, h){
                 heightSquared = h * h;
                 var value = w / heightSquared;
-                return Math.ceil(value);
+                return Math.round(value * 10)/10;
             }
             console.log(bmiCalculation(dogWeight, dogHeight));
             bmiFunction.innerText = `${bmiCalculation(dogWeight, dogHeight)}`;
             // Return BMI statement
             function returnResults(){
-                if (bmiCalculation < findUnderweight){
+                if (bmiCalculation < findUnderweight()){
                     return healthDiv.innerText = "underweight";
-                } else if (bmiCalculation > findOverweight){
+                } else if (bmiCalculation > findOverweight()){
                     return healthDiv.innerText = "overweight";
                 } else {
                     return healthDiv.innerText = "in great shape";
