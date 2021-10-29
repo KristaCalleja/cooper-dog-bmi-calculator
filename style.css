@@ -95,20 +95,19 @@ input{
     padding: 1em 1.5em;
 }
 .failure-icon, .success-icon{
-    font-size: 2rem;
+    font-size: 1rem;
     position: absolute;
     right: 0;
     bottom: 0;
     padding: 1.5em 1em 0 0;
-    justify-content: flex-end;
     opacity: 0;
 }
 .failure-icon, .error{
     color: red;
 }
 .error{
-    padding-top: .5em;
     opacity: 1;
+    font-size: .7rem;
 }
 .success-icon{
     color: green;

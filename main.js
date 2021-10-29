@@ -1,8 +1,18 @@
+require('dotenv').config()
 // Capture user inputs
 const nameInput = document.getElementById('name'); 
 const breedInput = document.getElementById('breed');
 const weightInput = document.getElementById('weight');
 const heightInput = document.getElementById('height');
+// Form error elements
+let id = (id) => document.getElementById(id);
+let classes = (classes) => document.getElementsByClassName(classes);
+let breed = id("breed"),
+    weight = id("weight"),
+    height = id("height"),
+    errorMsg = classes("error"),
+    successIcon = classes("success-icon"),
+    failureIcon = classes("failure-icon");
 // Select HTML nodes
 const resultDiv = document.querySelector('.results');
 const nameDiv = document.querySelector('.name');
@@ -13,6 +23,27 @@ const healthDiv = document.querySelector('.health');
 const bmiFunction = document.querySelector('.bmi-function');
 const formDiv = document.querySelector('.form');
 
+(breedInput, weightInput, heightInput).addEventListener("blur", () =>{
+    engine(breed, 0, "Breed field cannot be blank.");
+    engine(weight, 1, "Weight cannot be blank.");
+    engine(height, 2, "Height cannot be blank");
+});
+
+let engine = (id, serial, message) =>{
+    if (id.value.trim()===""){
+        errorMsg[serial].innerHTML = message;
+        id.style.border = "2px solid red";
+        failureIcon[serial].style.opacity = "1";
+        successIcon[serial].style.opacity = "0";
+    }
+    else {
+        errorMsg[serial].innerHTML = "";
+        id.style.border = "2px solid green";
+        failureIcon[serial].style.opacity = "0";
+        successIcon[serial].style.opacity = "1";
+    }
+}
+
 function fetchResponse(){
     // Read inputs
     const dogName = nameInput.value;
@@ -20,18 +51,13 @@ function fetchResponse(){
     let dogWeight = weightInput.value;
     let dogHeight = heightInput.value;
     // Consume API
-    const dataPromise  = fetch("https://api.thedogapi.com/v1/breeds"); 
-    console.log(typeof dataPromise);
-    dataPromise
-    // {
-    //     method: 'GET',
-    //     headers: {
-    //         'x-api-key': '8ae0c179-1bca-4daf-aee8-1cfbecdcaf1f',
-    //         'content-type': '',
-    //     },
-    //     mode: 'cors',
-    //     cache: 'default',
-    // }
+    fetch("https://api.thedogapi.com/v1/breeds"), {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+            'x-api-key': 'process.env.DOG_API_KEY',
+        },
+    }
         .then((response) => {
             return response.json();
         })
