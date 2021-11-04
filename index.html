@@ -22,13 +22,13 @@
                         <label for="name">What is your dog's name?</label>
                         <input type="text" name="name" id="name" placeholder="e.g. Scruffy">
                     </div>
-                    <div class="field">
+                    <div class="field" id="breed-field">
                         <label for="breed">Your dog's breed</label>
                         <div>
-                            <input type="text" name="breed" id="breed" placeholder="e.g. Great Dane" required>
-                            <ion-icon name="sad-outline" class="failure-icon"></ion-icon>
-                            <div class="error"></div>
+                            <input type="text" name="breed" id="breed" autocomplete="off" placeholder="e.g. Great Dane"
+                                required>
                         </div>
+                        <div id="match-list"></div>
                     </div>
                     <div class="field">
                         <label for="weight">Current weight</label>

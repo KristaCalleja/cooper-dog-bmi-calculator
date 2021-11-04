@@ -12,6 +12,7 @@ let breed = id("breed"),
     errorMsg = classes("error"),
     failureIcon = classes("failure-icon");
 // Select HTML nodes
+const matchList = document.getElementById('match-list');
 const resultDiv = document.querySelector('.results');
 const nameDiv = document.querySelector('.name');
 const breedSpan = document.querySelector('.breed');
@@ -20,6 +21,36 @@ const submitBtn = document.querySelector('.primary-btn');
 const healthDiv = document.querySelector('.health');
 const bmiFunction = document.querySelector('.bmi-function');
 const formDiv = document.querySelector('.form');
+
+// Autocomplete breed from the breed.json and filter it
+const searchBreeds = async breedText => {
+    const response = await fetch('https://api.thedogapi.com/v1/breeds');
+    const breeds = await response.json();
+    // Get matches to current text input
+    let breedResults = breeds.filter(breed => {
+        const regex = new RegExp(`^${breedText}`, 'gi');
+        return breed.name.match(regex);
+    });
+    if (breedText.length === 0){
+        breedResults = [];
+        matchList.innerHTML = '';
+    }
+    outputHtml(breedResults);
+};
+    // Show results in HTML
+    const outputHtml = breedResults => {
+        if(breedResults.length > 0){
+            const html = breedResults.map(result => `
+            <div class="matches">
+             <p>${result.name}</p>
+            </div>
+            `)
+            .join('');
+
+            matchList.innerHTML = html;
+        }
+    }
+breed.addEventListener('input', () => searchBreeds(breed.value));
 
 (breedInput, weightInput, heightInput).addEventListener("blur", () =>{
     engine(breed, 0, "Breed field cannot be blank.");
@@ -116,6 +147,7 @@ submitBtn.addEventListener('click', function(event){
     event.preventDefault();
     fetchResponse();
 })
+
 // Error handler
 function handleError(err) {
     console.log(err);
