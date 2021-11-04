@@ -1,4 +1,3 @@
-require('dotenv').config()
 // Capture user inputs
 const nameInput = document.getElementById('name'); 
 const breedInput = document.getElementById('breed');
@@ -11,7 +10,6 @@ let breed = id("breed"),
     weight = id("weight"),
     height = id("height"),
     errorMsg = classes("error"),
-    successIcon = classes("success-icon"),
     failureIcon = classes("failure-icon");
 // Select HTML nodes
 const resultDiv = document.querySelector('.results');
@@ -34,13 +32,11 @@ let engine = (id, serial, message) =>{
         errorMsg[serial].innerHTML = message;
         id.style.border = "2px solid red";
         failureIcon[serial].style.opacity = "1";
-        successIcon[serial].style.opacity = "0";
     }
     else {
         errorMsg[serial].innerHTML = "";
         id.style.border = "2px solid green";
         failureIcon[serial].style.opacity = "0";
-        successIcon[serial].style.opacity = "1";
     }
 }
 
@@ -51,17 +47,14 @@ function fetchResponse(){
     let dogWeight = weightInput.value;
     let dogHeight = heightInput.value;
     // Consume API
-    fetch("https://api.thedogapi.com/v1/breeds"), {
+    fetch("https://api.thedogapi.com/v1/breeds", {
         method: 'GET',
         mode: 'cors',
         headers: {
-            'x-api-key': 'process.env.DOG_API_KEY',
-        },
-    }
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
+            'x-api-key': '8ae0c179-1bca-4daf-aee8-1cfbecdcaf1f'
+        }
+    }).then((response) => response.json())
+      .then(data => {
             // Test fields
             console.log(typeof data);
             // Replace name and breed fields
@@ -118,7 +111,7 @@ function fetchResponse(){
             resultDiv.classList.add('open');
         })
         .catch(handleError);
-}
+    }
 submitBtn.addEventListener('click', function(event){
     event.preventDefault();
     fetchResponse();

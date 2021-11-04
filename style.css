@@ -94,7 +94,7 @@ input{
     margin-top: 1em;
     padding: 1em 1.5em;
 }
-.failure-icon, .success-icon{
+.failure-icon{
     font-size: 1rem;
     position: absolute;
     right: 0;
@@ -108,9 +108,6 @@ input{
 .error{
     opacity: 1;
     font-size: .7rem;
-}
-.success-icon{
-    color: green;
 }
 button{
     width: 100%;
