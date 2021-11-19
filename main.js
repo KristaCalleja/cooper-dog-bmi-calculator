@@ -22,36 +22,46 @@ const healthDiv = document.querySelector('.health');
 const bmiFunction = document.querySelector('.bmi-function');
 const formDiv = document.querySelector('.form');
 
-// Autocomplete breed from the breed.json and filter it
-const searchBreeds = async breedText => {
-    const response = await fetch('https://api.thedogapi.com/v1/breeds');
-    const breeds = await response.json();
-    // Get matches to current text input
-    let breedResults = breeds.filter(breed => {
-        const regex = new RegExp(`^${breedText}`, 'gi');
-        return breed.name.match(regex);
-    });
-    if (breedText.length === 0){
-        breedResults = [];
-        matchList.innerHTML = '';
-    }
-    outputHtml(breedResults);
-};
-    // Show results in HTML
-    const outputHtml = breedResults => {
-        if(breedResults.length > 0){
-            const html = breedResults.map(result => `
-            <div class="matches">
-             <p>${result.name}</p>
-            </div>
-            `)
-            .join('');
-
-            matchList.innerHTML = html;
+function apiCall(){
+       // get breed input
+       breedInput.onkeydown = function() {
+       var searchBreed = breedInput.value;
+   
+       if (searchBreed.length >= 3 ) {
+          while (document.getElementsByClassName('autoComplete')[0]) {
+            document.getElementsByClassName('autoComplete')[0].remove();
         }
-    }
-breed.addEventListener('input', () => searchBreeds(breed.value));
-
+           var request = new XMLHttpRequest();
+           request.open('GET', 'https://api.thedogapi.com/v1/breeds', true);
+           request.onload = function () {
+               // Begin accessing JSON data here
+               var data = JSON.parse(this.response);
+               var wrapper = document.createElement('div');
+               wrapper.className = "autoComplete";
+               app.appendChild(wrapper);
+               var results = data;
+               if (request.status >= 200 && request.status < 400) {
+                   console.log(data);
+                   Object.keys(data.Search).map(function(key, index) {
+                       console.log(data.Search[index].Title);
+   
+                       const searchResultsContainer = document.createElement('div');
+                       searchResultsContainer.setAttribute('class', 'row');
+   
+                       const h1 = document.createElement('h1');
+                       h1.textContent = data.Search[index].Title;
+                       wrapper.appendChild(searchResultsContainer);
+                       searchResultsContainer.appendChild(h1);
+                       console.log(searchResultsContainer);
+                    });
+               } else {
+                   console.log('error');
+               }
+           };
+           request.send();
+       }
+   }
+}
 (breedInput, weightInput, heightInput).addEventListener("blur", () =>{
     engine(breed, 0, "Breed field cannot be blank.");
     engine(weight, 1, "Weight cannot be blank.");
@@ -62,12 +72,9 @@ let engine = (id, serial, message) =>{
     if (id.value.trim()===""){
         errorMsg[serial].innerHTML = message;
         id.style.border = "2px solid red";
-        failureIcon[serial].style.opacity = "1";
-    }
-    else {
+    } else {
         errorMsg[serial].innerHTML = "";
         id.style.border = "2px solid green";
-        failureIcon[serial].style.opacity = "0";
     }
 }
 
