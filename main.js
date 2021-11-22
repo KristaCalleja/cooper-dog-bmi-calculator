@@ -18,65 +18,65 @@ const nameDiv = document.querySelector('.name');
 const breedSpan = document.querySelector('.breed');
 const weightSpan = document.querySelector('.weight');
 const submitBtn = document.querySelector('.primary-btn');
+const imageDiv = document.getElementById('img');
 const healthDiv = document.querySelector('.health');
 const bmiFunction = document.querySelector('.bmi-function');
 const formDiv = document.querySelector('.form');
+const didYouKnow = document.getElementById('h3');
 
-function apiCall(){
-       // get breed input
-       breedInput.onkeydown = function() {
-       var searchBreed = breedInput.value;
+// function apiCall(){
+//        // get breed input
+//        breedInput.onkeydown = function() {
+//        var searchBreed = breedInput.value;
    
-       if (searchBreed.length >= 3 ) {
-          while (document.getElementsByClassName('autoComplete')[0]) {
-            document.getElementsByClassName('autoComplete')[0].remove();
-        }
-           var request = new XMLHttpRequest();
-           request.open('GET', 'https://api.thedogapi.com/v1/breeds', true);
-           request.onload = function () {
-               // Begin accessing JSON data here
-               var data = JSON.parse(this.response);
-               var wrapper = document.createElement('div');
-               wrapper.className = "autoComplete";
-               app.appendChild(wrapper);
-               var results = data;
-               if (request.status >= 200 && request.status < 400) {
-                   console.log(data);
-                   Object.keys(data.Search).map(function(key, index) {
-                       console.log(data.Search[index].Title);
-   
-                       const searchResultsContainer = document.createElement('div');
-                       searchResultsContainer.setAttribute('class', 'row');
-   
-                       const h1 = document.createElement('h1');
-                       h1.textContent = data.Search[index].Title;
-                       wrapper.appendChild(searchResultsContainer);
-                       searchResultsContainer.appendChild(h1);
-                       console.log(searchResultsContainer);
-                    });
-               } else {
-                   console.log('error');
-               }
-           };
-           request.send();
-       }
-   }
-}
-(breedInput, weightInput, heightInput).addEventListener("blur", () =>{
-    engine(breed, 0, "Breed field cannot be blank.");
-    engine(weight, 1, "Weight cannot be blank.");
-    engine(height, 2, "Height cannot be blank");
-});
+//        if (searchBreed.length >= 3 ) {
+//           while (document.getElementsByClassName('autoComplete')[0]) {
+//             document.getElementsByClassName('autoComplete')[0].remove();
+//         }
+//            var request = new XMLHttpRequest();
+//            request.open('GET', 'https://api.thedogapi.com/v1/breeds', true);
+//            request.onload = function () {
+//                // Begin accessing JSON data here
+//                var data = JSON.parse(this.response);
+//                var wrapper = document.createElement('div');
+//                wrapper.className = "autoComplete";
+//                app.appendChild(wrapper);
+//                var results = data;
+//                if (request.status >= 200 && request.status < 400) {
+//                    console.log(data);
+//                    Object.keys(data.Search).map(function(key, index) {
+//                        console.log(data.Search[index].Title);
+//                        const searchResultsContainer = document.createElement('div');
+//                        searchResultsContainer.setAttribute('class', 'row');
+//                        const h1 = document.createElement('h1');
+//                        h1.textContent = data.Search[index].Title;
+//                        wrapper.appendChild(searchResultsContainer);
+//                        searchResultsContainer.appendChild(h1);
+//                        console.log(searchResultsContainer);
+//                     });
+//                } else {
+//                    console.log('error');
+//                }
+//            };
+//            request.send();
+//        }
+//    }
+// }
+// (breedInput, weightInput, heightInput).addEventListener("blur", () =>{
+//     engine(breed, 0, "Breed field cannot be blank.");
+//     engine(weight, 1, "Weight cannot be blank.");
+//     engine(height, 2, "Height cannot be blank");
+// });
 
-let engine = (id, serial, message) =>{
-    if (id.value.trim()===""){
-        errorMsg[serial].innerHTML = message;
-        id.style.border = "2px solid red";
-    } else {
-        errorMsg[serial].innerHTML = "";
-        id.style.border = "2px solid green";
-    }
-}
+// let engine = (id, serial, message) =>{
+//     if (id.value.trim()===""){
+//         errorMsg[serial].innerHTML = message;
+//         id.style.border = "2px solid red";
+//     } else {
+//         errorMsg[serial].innerHTML = "";
+//         id.style.border = "2px solid green";
+//     }
+// }
 
 function fetchResponse(){
     // Read inputs
@@ -109,6 +109,11 @@ function fetchResponse(){
             var healthyWeight = data[returnData].weight.metric;
             console.log(healthyWeight);
             weightSpan.innerText = healthyWeight;
+            // Insert more info about the dog under h3 element
+            const moreInfo = `
+                <p>Traditionally, ${breedType} dogs belong to the ${data[returnData].breed_group} breed group. Historically, they were bred for ${data[returnData].bred_for}. ${breedType}s are known to be ${data[returnData].temperament}. They have a typical life-span of ${data[returnData].life_span}.</p>
+            `;
+            didYouKnow.insertAdjacentHTML('afterend', moreInfo);
             // Split the healthy weight values into two values
             function findUnderweight(){
                 var underWeight = healthyWeight.split('');
@@ -121,10 +126,7 @@ function fetchResponse(){
             console.log(findUnderweight());
             console.log(findOverweight());
             // Place image of the dog
-            let imageDiv = new Image(300, 200);
-            imageDiv.src = data[returnData].image.url;
-            imageDiv.classList.add('image');
-            resultDiv.insertAdjacentElement('afterbegin', imageDiv);
+            imageDiv.src = `${data[returnData].image.url}`;
             // Calculate the BMI
             function bmiCalculation(w, h){
                 heightSquared = h * h;
