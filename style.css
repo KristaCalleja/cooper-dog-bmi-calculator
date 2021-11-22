@@ -55,11 +55,11 @@ main{
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
             flex-direction: column;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
             justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
             align-items: center;
 }
 .text::before{
@@ -87,6 +87,12 @@ form .field{
     padding: 1em;
     border-radius: 11px;
     position: relative;
+}
+form div:not(.field){
+    margin: 0;
+    display: flex;
+    background: var(--very-pale-blue);
+    border-radius: 11px;
 }
 input{
     width: 100%;
