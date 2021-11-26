@@ -23,45 +23,37 @@ const healthDiv = document.querySelector('.health');
 const bmiFunction = document.querySelector('.bmi-function');
 const formDiv = document.querySelector('.form');
 const didYouKnow = document.getElementById('h3');
+const switcher = document.querySelector('.switch');
 
-// function apiCall(){
-//        // get breed input
-//        breedInput.onkeydown = function() {
-//        var searchBreed = breedInput.value;
-   
-//        if (searchBreed.length >= 3 ) {
-//           while (document.getElementsByClassName('autoComplete')[0]) {
-//             document.getElementsByClassName('autoComplete')[0].remove();
-//         }
-//            var request = new XMLHttpRequest();
-//            request.open('GET', 'https://api.thedogapi.com/v1/breeds', true);
-//            request.onload = function () {
-//                // Begin accessing JSON data here
-//                var data = JSON.parse(this.response);
-//                var wrapper = document.createElement('div');
-//                wrapper.className = "autoComplete";
-//                app.appendChild(wrapper);
-//                var results = data;
-//                if (request.status >= 200 && request.status < 400) {
-//                    console.log(data);
-//                    Object.keys(data.Search).map(function(key, index) {
-//                        console.log(data.Search[index].Title);
-//                        const searchResultsContainer = document.createElement('div');
-//                        searchResultsContainer.setAttribute('class', 'row');
-//                        const h1 = document.createElement('h1');
-//                        h1.textContent = data.Search[index].Title;
-//                        wrapper.appendChild(searchResultsContainer);
-//                        searchResultsContainer.appendChild(h1);
-//                        console.log(searchResultsContainer);
-//                     });
-//                } else {
-//                    console.log('error');
-//                }
-//            };
-//            request.send();
-//        }
-//    }
-// }
+// Autocomplete on breeds
+const searchBreeds = async searchText => {
+    const response = await fetch('https://api.thedogapi.com/v1/breeds');
+    const breeds = await response.json();
+    // Get matches to current text input
+    let matches = breeds.filter(breed => {
+        const regex = new RegExp(`^${searchText}`, 'gi'); // Global and instance sensitive case
+        return breed.name.match(regex);
+    });
+    console.log(matches);
+    if(searchText.length === 0){
+        matches = [];
+        matchList.innerHTML = '';
+    }
+    outputHTML(matches);
+};
+// Show results in HTML
+const outputHTML = matches => {
+    if(matches.length > 0){
+        const html = matches.map(match => `
+            <div class="matches">
+                <img src="${match.image.url}"/>
+                <p>${match.name}</p>
+            </div>
+        `).join('');
+        matchList.innerHTML = html;
+    }
+};
+breedInput.addEventListener('input', () => searchBreeds(breedInput.value));
 // (breedInput, weightInput, heightInput).addEventListener("blur", () =>{
 //     engine(breed, 0, "Breed field cannot be blank.");
 //     engine(weight, 1, "Weight cannot be blank.");
@@ -77,7 +69,14 @@ const didYouKnow = document.getElementById('h3');
 //         id.style.border = "2px solid green";
 //     }
 // }
-
+// function toggleSwitch(){
+//     if(){
+//         switcher.classList.add('slide');
+//     } else{
+//         switcher.classList.remove('slide');
+//     }
+// }
+// switcher.onClick = toggleSwitch();
 function fetchResponse(){
     // Read inputs
     const dogName = nameInput.value;

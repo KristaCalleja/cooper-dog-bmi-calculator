@@ -36,10 +36,10 @@ a:hover{
     text-decoration: none;
 }
 :focus{
-    outline: 2px var(--desaturated-blue) solid;
     border-radius: .25em;
+    box-shadow: hsl(224, 23%, 55%);
 }
-body{
+body{z
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     height: 100vh;
@@ -86,9 +86,35 @@ form .field{
     border-radius: 11px;
     position: relative;
 }
-form div:not(.field){
-    margin: 0;
+.slider-div{
+    border: 1px red solid;
+    margin: 0 auto;
+    max-width: 320px;
     display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.slider{
+    width: 50px;
+    height: 25px;
+    border: 2px black solid;
+    border-radius: 15px;
+}
+.switch{
+    cursor: pointer;
+    border: 3px var(--very-pale-blue) solid;
+    border-radius: 11px;
+    height: 100%;
+    background: var(--dark-blue);
+    width: 50%;
+}
+.switch.slide{
+    transform: translateX(100%);
+}
+.input-fields{
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
     background: var(--very-pale-blue);
     border-radius: 11px;
 }
@@ -159,24 +185,25 @@ footer{
     box-shadow: -1px 2px 8px -6px #000001;
 }
 #match-list{
-    background: var(--desaturated-blue);
-    text-align: left;
+    display: inline;
+    background: white;
     position: absolute;
     z-index: 1;
-    width: 90%;
+    width: 100%;
 }
 .matches{
-    border: 1px var(--very-pale-blue) solid;
+    padding: 0 10em 0 0;
+    border-bottom: 2px var(--dark-blue) solid;
+    width: 95%;
     text-decoration: none;
     display: flex;
-}
-.matches p{
+    justify-content: space-between;
+    align-items: center;
     cursor: pointer;
-    margin-left: 40px;
-    color: black;
 }
-.matches p:first-of-type{
-    font-weight: 600;
+.matches:hover{
+    background: hsl(225, 100%, 94%);
+    color: white;
 }
 .matches img{
     height: 60px;
