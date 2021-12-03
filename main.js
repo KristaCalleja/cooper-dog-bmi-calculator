@@ -3,14 +3,6 @@ const nameInput = document.getElementById('name');
 const breedInput = document.getElementById('breed');
 const weightInput = document.getElementById('weight');
 const heightInput = document.getElementById('height');
-// Form error elements
-let id = (id) => document.getElementById(id);
-let classes = (classes) => document.getElementsByClassName(classes);
-let breed = id("breed"),
-    weight = id("weight"),
-    height = id("height"),
-    errorMsg = classes("error"),
-    failureIcon = classes("failure-icon");
 // Select HTML nodes
 const matchList = document.getElementById('match-list');
 const resultDiv = document.querySelector('.results');
@@ -25,35 +17,7 @@ const formDiv = document.querySelector('.form');
 const didYouKnow = document.getElementById('h3');
 const switcher = document.querySelector('.switch');
 
-// Autocomplete on breeds
-const searchBreeds = async searchText => {
-    const response = await fetch('https://api.thedogapi.com/v1/breeds');
-    const breeds = await response.json();
-    // Get matches to current text input
-    let matches = breeds.filter(breed => {
-        const regex = new RegExp(`^${searchText}`, 'gi'); // Global and instance sensitive case
-        return breed.name.match(regex);
-    });
-    console.log(matches);
-    if(searchText.length === 0){
-        matches = [];
-        matchList.innerHTML = '';
-    }
-    outputHTML(matches);
-};
-// Show results in HTML
-const outputHTML = matches => {
-    if(matches.length > 0){
-        const html = matches.map(match => `
-            <div class="matches">
-                <img src="${match.image.url}"/>
-                <p>${match.name}</p>
-            </div>
-        `).join('');
-        matchList.innerHTML = html;
-    }
-};
-breedInput.addEventListener('input', () => searchBreeds(breedInput.value));
+// 
 // (breedInput, weightInput, heightInput).addEventListener("blur", () =>{
 //     engine(breed, 0, "Breed field cannot be blank.");
 //     engine(weight, 1, "Weight cannot be blank.");
@@ -69,14 +33,52 @@ breedInput.addEventListener('input', () => searchBreeds(breedInput.value));
 //         id.style.border = "2px solid green";
 //     }
 // }
-// function toggleSwitch(){
-//     if(){
-//         switcher.classList.add('slide');
-//     } else{
-//         switcher.classList.remove('slide');
-//     }
-// }
-// switcher.onClick = toggleSwitch();
+// Autocomplete on breeds
+const searchBreeds = async searchText => {
+    const response = await fetch('https://api.thedogapi.com/v1/breeds');
+    const breeds = await response.json();
+    // Get matches to current text input
+    var matches = breeds.filter(breed => {
+        const regex = new RegExp(`^${searchText}`, 'gi'); // Global and instance sensitive case
+        return breed.name.match(regex);
+    });
+    console.log(matches);
+    if(searchText.length === 0){
+        matches = [];
+        matchList.innerHTML = '';
+    }
+    outputHTML(matches);
+};
+// Show results in HTML
+const outputHTML = matches => {
+    if(matches.length > 0){
+        const html = matches.map(match => `
+        <div class="matches" data-dogname="${match.name}">
+            <img src="${match.image.url}"/>
+            <p>${match.name}</p>
+        </div>
+        `)
+        .join('');
+        matchList.innerHTML = html;
+    };
+    if(matches.length > 0){
+        const matchDiv = document.querySelectorAll('.matches');
+        matchDiv.forEach((m) =>{
+            m.addEventListener("click", (event) => {
+                breedInput.value = event.target.dataset.dogname;
+                matchList.innerHTML = '';
+            });
+        });
+    };
+};
+breedInput.addEventListener('input', () => searchBreeds(breedInput.value));
+// Change the unit of measurement
+switcher.addEventListener('click', function(){
+    weightInput.placeholder = "e.g. 9.1lbs";
+    heightInput.placeholder = "e.g. 2.88ft";
+    switcher.classList.toggle('slide');
+});
+
 function fetchResponse(){
     // Read inputs
     const dogName = nameInput.value;
@@ -130,7 +132,7 @@ function fetchResponse(){
             function bmiCalculation(w, h){
                 heightSquared = h * h;
                 var value = w / heightSquared;
-                return Math.round(value * 10)/10;
+                return Math.round(value * 10);
             }
             console.log(bmiCalculation(dogWeight, dogHeight));
             bmiFunction.innerText = `${bmiCalculation(dogWeight, dogHeight)}`;

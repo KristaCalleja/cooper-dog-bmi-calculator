@@ -201,6 +201,7 @@ footer{
     color: var(--very-pale-blue);
 }
 .matches img{
+    margin: 0 auto;
     height: 60px;
     width: 100px;
 }
