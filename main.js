@@ -112,7 +112,10 @@ function fetchResponse(){
             weightSpan.innerText = healthyWeight;
             // Insert more info about the dog under h3 element
             const moreInfo = `
-                <p>Traditionally, ${breedType} dogs belong to the ${data[returnData].breed_group} breed group. Historically, they were bred for ${data[returnData].bred_for}. ${breedType}s are known to be ${data[returnData].temperament}. They have a typical life-span of ${data[returnData].life_span}.</p>
+                <p>Traditionally, ${breedType} dogs belong to the ${data[returnData].breed_group} breed group. 
+                Historically, they were bred for ${data[returnData].bred_for}. ${breedType}s are known to
+                be ${data[returnData].temperament}. They have a typical life-span of 
+                ${data[returnData].life_span}.</p>
             `;
             didYouKnow.insertAdjacentHTML('afterend', moreInfo);
             // Split the healthy weight values into two values
